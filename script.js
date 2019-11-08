@@ -1,3 +1,4 @@
+const apiKey = '3aab69399bf03eca438758bf6e33d18e';
 const buttonSubmit = document.getElementById('submit');
 const cityInput = document.getElementById('input1');
 const countryInput = document.getElementById('input2');
@@ -8,14 +9,10 @@ const tempMin = document.getElementById('temp-min');
 const tempMax = document.getElementById('temp-max');
 const wind = document.getElementById('wind');
 
-const getData = async (cityName, country) => {
+const getTodayData = async (cityName, country) => {
   try {
     const response = await fetch(
-      'http://api.openweathermap.org/data/2.5/weather?q=' +
-        cityName +
-        ',' +
-        country +
-        '&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
+      `http://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&units=metric&appid=${apiKey}`,
       {
         mode: 'cors'
       }
@@ -25,20 +22,16 @@ const getData = async (cityName, country) => {
     console.log(fetchedData);
 
     //send the data to be displayed
-    display(fetchedData);
+    displayToday(fetchedData);
   } catch (err) {
     alert(err);
   }
 };
 
-const get5dayData = async (cityName, country) => {
+const get5dayHourlyData = async (cityName, country) => {
   try {
     const response = await fetch(
-      'http://api.openweathermap.org/data/2.5/forecast?q=' +
-        cityName +
-        ',' +
-        country +
-        '&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
+      `http://api.openweathermap.org/data/2.5/forecast?q=${cityName},${country}&units=metric&appid=${apiKey}`,
       {
         mode: 'cors'
       }
@@ -52,7 +45,7 @@ const get5dayData = async (cityName, country) => {
 };
 
 //display the data
-const display = apiData => {
+const displayToday = apiData => {
   city.textContent = apiData.name;
   description.textContent =
     apiData.weather[0].description.charAt(0).toUpperCase() + apiData.weather[0].description.slice(1); //capital first
@@ -63,9 +56,9 @@ const display = apiData => {
   wind.textContent = `wind: ${apiData.wind.speed} m/s`;
 };
 
-getData('leeds', 'gb');
-get5dayData('leeds', 'gb');
+getTodayData('leeds', 'gb');
+get5dayHourlyData('leeds', 'gb');
 
 buttonSubmit.addEventListener('click', () => {
-  getData(cityInput.value, countryInput.value);
+  getTodayData(cityInput.value, countryInput.value);
 });
