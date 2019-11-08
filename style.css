@@ -1,1 +1,9 @@
+#today-hourly {
+  display: flex;
+}
+
+.today-part {
+  border: 1px solid #222;
+  padding: 2px;
+}
 
