@@ -1,15 +1,18 @@
 const buttonSubmit = document.getElementById('submit');
-const input1 = document.getElementById('input1');
+const cityInput = document.getElementById('input1');
+const countryInput = document.getElementById('input2');
 const city = document.getElementById('city');
 const description = document.getElementById('description');
 const temp = document.getElementById('temp');
 
-const getData = async cityName => {
+const getData = async (cityName, country) => {
   try {
     const response = await fetch(
       'http://api.openweathermap.org/data/2.5/weather?q=' +
         cityName +
-        ',gb&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
+        ',' +
+        country +
+        '&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
       {
         mode: 'cors'
       }
@@ -17,6 +20,7 @@ const getData = async cityName => {
     const fetchedData = await response.json();
 
     console.log(fetchedData);
+
     //send the data to be displayed
     display(fetchedData);
   } catch (err) {
@@ -28,12 +32,12 @@ const getData = async cityName => {
 const display = apiData => {
   city.textContent = apiData.name;
   description.textContent = apiData.weather[0].description;
-  //round to one float
-  temp.textContent = `${Math.round(apiData.main.temp * 10) / 10} °C`;
+  //rounded to integer
+  temp.textContent = `${Math.round(apiData.main.temp)} °C`;
 };
 
-getData('leeds');
+getData('leeds', 'gb');
 
 buttonSubmit.addEventListener('click', () => {
-  getData(input1.value);
+  getData(cityInput.value, countryInput.value);
 });
