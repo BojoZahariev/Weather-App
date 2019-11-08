@@ -6,6 +6,7 @@ const description = document.getElementById('description');
 const temp = document.getElementById('temp');
 const tempMin = document.getElementById('temp-min');
 const tempMax = document.getElementById('temp-max');
+const wind = document.getElementById('wind');
 
 const getData = async (cityName, country) => {
   try {
@@ -37,7 +38,7 @@ const get5dayData = async (cityName, country) => {
         cityName +
         ',' +
         country +
-        '&mode=json&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
+        '&units=metric&appid=3aab69399bf03eca438758bf6e33d18e',
       {
         mode: 'cors'
       }
@@ -59,6 +60,7 @@ const display = apiData => {
   temp.textContent = `${Math.round(apiData.main.temp)} °C`;
   tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
   tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
+  wind.textContent = `wind: ${apiData.wind.speed} m/s`;
 };
 
 getData('leeds', 'gb');
