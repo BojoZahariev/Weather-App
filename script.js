@@ -42,19 +42,38 @@ const get5dayHourlyData = async (cityName, country) => {
     const fetchedData = await response.json();
 
     console.log(fetchedData);
+    displayTodayHourly(fetchedData);
+    getIndex(fetchedData);
 
     //get the index of the next day start 00:00:00
+    /*
     let newDayIndex;
+    
     for (let i = 0; i < fetchedData.list.length; i++) {
       if (fetchedData.list[i].dt_txt.includes('00:00:00')) {
         newDayIndex = i;
         console.log(newDayIndex);
+        //try break
         return;
       }
     }
+    */
   } catch (err) {
     alert(err);
   }
+};
+
+const getIndex = apiData => {
+  let newDayIndex;
+
+  for (let i = 0; i < apiData.list.length; i++) {
+    if (apiData.list[i].dt_txt.includes('00:00:00')) {
+      newDayIndex = i;
+      console.log(newDayIndex);
+      return;
+    }
+  }
+  return newDayIndex;
 };
 
 //display the data for Today
@@ -70,7 +89,13 @@ const displayToday = apiData => {
 };
 
 const displayTodayHourly = apiData => {
-  for (let i = 0; i < 8; i++) {}
+  //console.log('ding');
+  for (let i = 0; i < 8; i++) {
+    let item = document.createElement('p');
+    todayHourlyElement[i].appendChild(item);
+
+    item.textContent = apiData.list[i].dt_txt;
+  }
 };
 
 getTodayData('leeds', 'gb');
