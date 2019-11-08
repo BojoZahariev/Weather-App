@@ -8,7 +8,10 @@ const temp = document.getElementById('temp');
 const tempMin = document.getElementById('temp-min');
 const tempMax = document.getElementById('temp-max');
 const wind = document.getElementById('wind');
+const todayHourlyDiv = document.getElementById('today-hourly');
+const todayHourlyElement = document.getElementsByClassName('today-part');
 
+//today's weather
 const getTodayData = async (cityName, country) => {
   try {
     const response = await fetch(
@@ -39,12 +42,22 @@ const get5dayHourlyData = async (cityName, country) => {
     const fetchedData = await response.json();
 
     console.log(fetchedData);
+
+    //get the index of the next day start 00:00:00
+    let newDayIndex;
+    for (let i = 0; i < fetchedData.list.length; i++) {
+      if (fetchedData.list[i].dt_txt.includes('00:00:00')) {
+        newDayIndex = i;
+        console.log(newDayIndex);
+        return;
+      }
+    }
   } catch (err) {
     alert(err);
   }
 };
 
-//display the data
+//display the data for Today
 const displayToday = apiData => {
   city.textContent = apiData.name;
   description.textContent =
@@ -54,6 +67,10 @@ const displayToday = apiData => {
   tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
   tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
   wind.textContent = `wind: ${apiData.wind.speed} m/s`;
+};
+
+const displayTodayHourly = apiData => {
+  for (let i = 0; i < 8; i++) {}
 };
 
 getTodayData('leeds', 'gb');
