@@ -53,8 +53,7 @@ const get5dayHourlyData = async (cityName, country) => {
       if (fetchedData.list[i].dt_txt.includes('00:00:00')) {
         newDayIndex = i;
         console.log(newDayIndex);
-        //try break
-        return;
+        break;
       }
     }
     */
@@ -67,10 +66,10 @@ const getIndex = apiData => {
   let newDayIndex;
 
   for (let i = 0; i < apiData.list.length; i++) {
-    if (apiData.list[i].dt_txt.includes('00:00:00')) {
+    if (apiData.list[i].dt_txt.includes('03:00:00')) {
       newDayIndex = i;
       console.log(newDayIndex);
-      return;
+      break;
     }
   }
   return newDayIndex;
@@ -79,22 +78,33 @@ const getIndex = apiData => {
 //display the data for Today
 const displayToday = apiData => {
   city.textContent = apiData.name;
-  description.textContent =
-    apiData.weather[0].description.charAt(0).toUpperCase() + apiData.weather[0].description.slice(1); //capital first
   //rounded to integer
   temp.textContent = `${Math.round(apiData.main.temp)} °C`;
+  description.textContent =
+    apiData.weather[0].description.charAt(0).toUpperCase() + apiData.weather[0].description.slice(1); //capital first
   tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
   tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
   wind.textContent = `wind: ${apiData.wind.speed} m/s`;
 };
 
 const displayTodayHourly = apiData => {
-  //console.log('ding');
   for (let i = 0; i < 8; i++) {
-    let item = document.createElement('p');
-    todayHourlyElement[i].appendChild(item);
+    let item1 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item1);
+    item1.textContent = apiData.list[i].dt_txt.slice(-9, -3);
 
-    item.textContent = apiData.list[i].dt_txt;
+    let item2 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item2);
+    item2.textContent = `${Math.round(apiData.list[i].main.temp)} °C`;
+
+    let item3 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item3);
+    item3.textContent =
+      apiData.list[i].weather[0].description.charAt(0).toUpperCase() + apiData.list[i].weather[0].description.slice(1); //capital first
+
+    let item4 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item4);
+    item4.textContent = `wind: ${apiData.list[i].wind.speed} m/s`;
   }
 };
 
