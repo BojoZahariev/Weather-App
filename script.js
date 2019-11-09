@@ -46,7 +46,7 @@ const get5dayHourlyData = async (cityName, country) => {
     console.log(fetchedData);
     displayTodayHourly(fetchedData);
     getIndex(fetchedData);
-    displayNext4days(fetchedData, 5);
+    displayNext4days(fetchedData, getIndex(fetchedData));
 
     //get the index of the next day start 00:00:00
     /*
@@ -65,6 +65,7 @@ const get5dayHourlyData = async (cityName, country) => {
   }
 };
 
+//get the index of the next day, start 03:00:00
 const getIndex = apiData => {
   let newDayIndex;
 
@@ -121,9 +122,18 @@ const displayNext4days = (apiData, start) => {
   for (let i = 0; i < 4; i++) {
     forecastElement[i].textContent =
       apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
+
+    let dateIndex = start;
+
     start += 8;
+
+    forecastElement[i].addEventListener('click', () => {
+      console.log('ding' + dateIndex);
+    });
   }
 };
+
+const test = () => {};
 
 getTodayData('leeds', 'gb');
 get5dayHourlyData('leeds', 'gb');
