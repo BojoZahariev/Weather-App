@@ -4,6 +4,6 @@
 
 .today-part {
   border: 1px solid #222;
-  padding: 2px;
+  padding: 2px 10px;
+  flex-basis: 10%;
 }
-
