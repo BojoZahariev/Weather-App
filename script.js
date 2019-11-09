@@ -16,6 +16,7 @@ const forecastDiv = document.getElementById('forecast');
 const forecastElement = document.getElementsByClassName('forecast-part');
 const backToToday = document.getElementById('back-to-today');
 const validPlace = document.getElementById('validPlace');
+const closeValidPlace = document.getElementById('close');
 
 cityInput.value = 'Leeds';
 countryInput.value = 'GB';
@@ -150,6 +151,10 @@ buttonSubmit.addEventListener('click', () => {
     localStorage.setItem('city', cityInput.value);
     localStorage.setItem('country', countryInput.value);
   }
+});
+
+closeValidPlace.addEventListener('click', () => {
+  validPlace.style.display = 'none';
 });
 
 getTodayData(cityInput.value, countryInput.value);
