@@ -1,3 +1,7 @@
+div {
+  margin: 5px 20px;
+}
+
 #today-hourly {
   display: flex;
 }
@@ -5,5 +9,22 @@
 .today-part {
   border: 1px solid #222;
   padding: 2px 10px;
-  flex-basis: 10%;
+  flex-grow: 1;
+}
+
+#forecast {
+  display: flex;
+}
+
+.forecast-part {
+  border: 1px solid #222;
+  padding: 2px 10px;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+#back-to-today {
+  border: 1px solid #222;
+  width: 150px;
+  cursor: pointer;
 }
