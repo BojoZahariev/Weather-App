@@ -12,6 +12,16 @@ const todayHourlyDiv = document.getElementById('today-hourly');
 const todayHourlyElement = document.getElementsByClassName('today-part');
 const forecastDiv = document.getElementById('forecast');
 const forecastElement = document.getElementsByClassName('forecast-part');
+const backToToday = document.getElementById('back-to-today');
+
+cityInput.value = 'Leeds';
+countryInput.value = 'GB';
+
+//get the data from the local storage if it's not empty
+if (localStorage.length !== 0) {
+  cityInput.value = localStorage.getItem('city');
+  countryInput.value = localStorage.getItem('country');
+}
 
 //today's weather
 const getTodayData = async (cityName, country) => {
@@ -44,22 +54,9 @@ const get5dayHourlyData = async (cityName, country) => {
     const fetchedData = await response.json();
 
     console.log(fetchedData);
-    displayTodayHourly(fetchedData);
+    displayTodayHourly(fetchedData, 0);
     getIndex(fetchedData);
     displayNext4days(fetchedData, getIndex(fetchedData));
-
-    //get the index of the next day start 00:00:00
-    /*
-    let newDayIndex;
-    
-    for (let i = 0; i < fetchedData.list.length; i++) {
-      if (fetchedData.list[i].dt_txt.includes('00:00:00')) {
-        newDayIndex = i;
-        console.log(newDayIndex);
-        break;
-      }
-    }
-    */
   } catch (err) {
     alert(err);
   }
@@ -72,7 +69,6 @@ const getIndex = apiData => {
   for (let i = 0; i < apiData.list.length; i++) {
     if (apiData.list[i].dt_txt.includes('03:00:00')) {
       newDayIndex = i;
-      console.log(newDayIndex);
       break;
     }
   }
@@ -91,7 +87,7 @@ const displayToday = apiData => {
   wind.textContent = `wind: ${apiData.wind.speed} m/s`;
 };
 
-const displayTodayHourly = apiData => {
+const displayTodayHourly = (apiData, start) => {
   //clear the old
   for (let i = 0; i < 8; i++) {
     while (todayHourlyElement[i].firstChild) {
@@ -101,20 +97,23 @@ const displayTodayHourly = apiData => {
   for (let i = 0; i < 8; i++) {
     let item1 = document.createElement('p');
     todayHourlyElement[i].appendChild(item1);
-    item1.textContent = apiData.list[i].dt_txt.slice(-9, -3);
+    item1.textContent = apiData.list[start].dt_txt.slice(-9, -3);
 
     let item2 = document.createElement('p');
     todayHourlyElement[i].appendChild(item2);
-    item2.textContent = `${Math.round(apiData.list[i].main.temp)} °C`;
+    item2.textContent = `${Math.round(apiData.list[start].main.temp)} °C`;
 
     let item3 = document.createElement('p');
     todayHourlyElement[i].appendChild(item3);
     item3.textContent =
-      apiData.list[i].weather[0].description.charAt(0).toUpperCase() + apiData.list[i].weather[0].description.slice(1); //capital first
+      apiData.list[start].weather[0].description.charAt(0).toUpperCase() +
+      apiData.list[start].weather[0].description.slice(1); //capital first
 
     let item4 = document.createElement('p');
     todayHourlyElement[i].appendChild(item4);
-    item4.textContent = `wind: ${apiData.list[i].wind.speed} m/s`;
+    item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
+
+    start++;
   }
 };
 
@@ -129,16 +128,25 @@ const displayNext4days = (apiData, start) => {
 
     forecastElement[i].addEventListener('click', () => {
       console.log('ding' + dateIndex);
+      displayTodayHourly(apiData, dateIndex);
     });
   }
 };
 
-const test = () => {};
-
-getTodayData('leeds', 'gb');
-get5dayHourlyData('leeds', 'gb');
+backToToday.addEventListener('click', () => {
+  get5dayHourlyData(cityInput.value, countryInput.value);
+});
 
 buttonSubmit.addEventListener('click', () => {
   getTodayData(cityInput.value, countryInput.value);
   get5dayHourlyData(cityInput.value, countryInput.value);
+
+  // Store
+  if (typeof Storage !== 'undefined') {
+    localStorage.setItem('city', cityInput.value);
+    localStorage.setItem('country', countryInput.value);
+  }
 });
+
+getTodayData(cityInput.value, countryInput.value);
+get5dayHourlyData(cityInput.value, countryInput.value);
