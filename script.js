@@ -10,6 +10,8 @@ const tempMax = document.getElementById('temp-max');
 const wind = document.getElementById('wind');
 const todayHourlyDiv = document.getElementById('today-hourly');
 const todayHourlyElement = document.getElementsByClassName('today-part');
+const forecastDiv = document.getElementById('forecast');
+const forecastElement = document.getElementsByClassName('forecast-part');
 
 //today's weather
 const getTodayData = async (cityName, country) => {
@@ -44,6 +46,7 @@ const get5dayHourlyData = async (cityName, country) => {
     console.log(fetchedData);
     displayTodayHourly(fetchedData);
     getIndex(fetchedData);
+    displayNext4days(fetchedData, 5);
 
     //get the index of the next day start 00:00:00
     /*
@@ -88,6 +91,12 @@ const displayToday = apiData => {
 };
 
 const displayTodayHourly = apiData => {
+  //clear the old
+  for (let i = 0; i < 8; i++) {
+    while (todayHourlyElement[i].firstChild) {
+      todayHourlyElement[i].removeChild(todayHourlyElement[i].firstChild);
+    }
+  }
   for (let i = 0; i < 8; i++) {
     let item1 = document.createElement('p');
     todayHourlyElement[i].appendChild(item1);
@@ -108,9 +117,18 @@ const displayTodayHourly = apiData => {
   }
 };
 
+const displayNext4days = (apiData, start) => {
+  for (let i = 0; i < 4; i++) {
+    forecastElement[i].textContent =
+      apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
+    start += 8;
+  }
+};
+
 getTodayData('leeds', 'gb');
 get5dayHourlyData('leeds', 'gb');
 
 buttonSubmit.addEventListener('click', () => {
   getTodayData(cityInput.value, countryInput.value);
+  get5dayHourlyData(cityInput.value, countryInput.value);
 });
