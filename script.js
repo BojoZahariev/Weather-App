@@ -30,7 +30,7 @@ if (localStorage.length !== 0) {
 const getTodayData = async (cityName, country) => {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&units=metric&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&units=metric&appid=${apiKey}`,
       {
         mode: 'cors'
       }
@@ -49,7 +49,7 @@ const getTodayData = async (cityName, country) => {
 const get5dayHourlyData = async (cityName, country) => {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${cityName},${country}&units=metric&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},${country}&units=metric&appid=${apiKey}`,
       {
         mode: 'cors'
       }
