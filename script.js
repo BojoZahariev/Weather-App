@@ -21,7 +21,7 @@ cityInput.value = 'Leeds';
 countryInput.value = 'GB';
 
 //get the data from the local storage if it's not empty
-if (localStorage.length !== 0) {
+if (localStorage.getItem('city') !== null && localStorage.getItem('country') !== null) {
   cityInput.value = localStorage.getItem('city');
   countryInput.value = localStorage.getItem('country');
 }
@@ -145,7 +145,7 @@ buttonSubmit.addEventListener('click', () => {
   getTodayData(cityInput.value, countryInput.value);
   get5dayHourlyData(cityInput.value, countryInput.value);
 
-  // Store
+  // Storage
   if (typeof Storage !== 'undefined') {
     localStorage.setItem('city', cityInput.value);
     localStorage.setItem('country', countryInput.value);
