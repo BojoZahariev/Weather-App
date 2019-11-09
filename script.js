@@ -8,11 +8,14 @@ const temp = document.getElementById('temp');
 const tempMin = document.getElementById('temp-min');
 const tempMax = document.getElementById('temp-max');
 const wind = document.getElementById('wind');
+const sunrise = document.getElementById('sunrise');
+const sunset = document.getElementById('sunset');
 const todayHourlyDiv = document.getElementById('today-hourly');
 const todayHourlyElement = document.getElementsByClassName('today-part');
 const forecastDiv = document.getElementById('forecast');
 const forecastElement = document.getElementsByClassName('forecast-part');
 const backToToday = document.getElementById('back-to-today');
+const validPlace = document.getElementById('validPlace');
 
 cityInput.value = 'Leeds';
 countryInput.value = 'GB';
@@ -39,7 +42,7 @@ const getTodayData = async (cityName, country) => {
     //send the data to be displayed
     displayToday(fetchedData);
   } catch (err) {
-    alert(err);
+    validPlace.style.display = 'block';
   }
 };
 
@@ -58,7 +61,7 @@ const get5dayHourlyData = async (cityName, country) => {
     getIndex(fetchedData);
     displayNext4days(fetchedData, getIndex(fetchedData));
   } catch (err) {
-    alert(err);
+    validPlace.style.display = 'block';
   }
 };
 
@@ -85,6 +88,8 @@ const displayToday = apiData => {
   tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
   tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
   wind.textContent = `wind: ${apiData.wind.speed} m/s`;
+  sunrise.textContent = `Sunrise: ${new Date(apiData.sys.sunrise * 1000).toLocaleTimeString()}`;
+  sunset.textContent = `Sunset: ${new Date(apiData.sys.sunset * 1000).toLocaleTimeString()}`;
 };
 
 const displayTodayHourly = (apiData, start) => {
@@ -127,7 +132,6 @@ const displayNext4days = (apiData, start) => {
     start += 8;
 
     forecastElement[i].addEventListener('click', () => {
-      console.log('ding' + dateIndex);
       displayTodayHourly(apiData, dateIndex);
     });
   }
