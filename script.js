@@ -103,7 +103,9 @@ const displayToday = apiData => {
   ).toLocaleTimeString()}`;
 
   //move the form div away
-  form.classList.toggle("form-after");
+  if (mainContent.style.display !== "block") {
+    form.classList.toggle("form-after");
+  }
   mainContent.style.display = "block";
   loader.style.display = "none";
 };
