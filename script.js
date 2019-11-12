@@ -1,4 +1,6 @@
 const apiKey = "3aab69399bf03eca438758bf6e33d18e";
+const loader = document.getElementById("loader");
+const mainContent = document.getElementById("content");
 const buttonSubmit = document.getElementById("submit");
 const saveChoice = document.getElementById("save-choice");
 const form = document.getElementById("form");
@@ -102,6 +104,8 @@ const displayToday = apiData => {
 
   //move the form div away
   form.classList.toggle("form-after");
+  mainContent.style.display = "block";
+  loader.style.display = "none";
 };
 
 const displayTodayHourly = (apiData, start) => {
@@ -151,11 +155,14 @@ const displayNext4days = (apiData, start) => {
   }
 };
 
+//SUBMIT
 buttonSubmit.addEventListener("click", () => {
   getTodayData(cityInput.value, countryInput.value);
   get5dayHourlyData(cityInput.value, countryInput.value);
+  loader.style.display = "block";
 });
 
+//Save city
 saveChoice.addEventListener("click", () => {
   storageItems();
 });
