@@ -1,3 +1,12 @@
+.form-before {
+  position: absolute;
+  top: 20%;
+}
+
+.form-after {
+  top: 0;
+}
+
 #validPlace {
   width: 200px;
   height: 200px;
@@ -14,6 +23,13 @@
 
 #input1 {
   text-transform: uppercase;
+}
+
+#submit {
+  border: 1px solid #222;
+  padding: 10px;
+
+  display: inline;
 }
 
 .today {
