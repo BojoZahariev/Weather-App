@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="style.css" />
     <title>Weather</title>
   </head>
+
   <body>
+    <div id="loader"></div>
     <div id="validPlace">
       Please enter a valid place
       <p id="close">X</p>
@@ -267,37 +269,38 @@
       <p id="submit">submit</p>
       <p id="save-choice">Save that place</p>
     </form>
+    <div id="content">
+      <div class="today">
+        <p id="city"></p>
+        <p id="temp"></p>
+        <p id="description"></p>
+        <p id="temp-min"></p>
+        <p id="temp-max"></p>
+        <p id="wind"></p>
+        <p id="sunrise"></p>
+        <p id="sunset"></p>
+      </div>
 
-    <div class="today">
-      <p id="city"></p>
-      <p id="temp"></p>
-      <p id="description"></p>
-      <p id="temp-min"></p>
-      <p id="temp-max"></p>
-      <p id="wind"></p>
-      <p id="sunrise"></p>
-      <p id="sunset"></p>
+      <div id="today-hourly">
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+        <div class="today-part"></div>
+      </div>
+
+      <div id="forecast">
+        <p class="forecast-part"></p>
+        <p class="forecast-part"></p>
+        <p class="forecast-part"></p>
+        <p class="forecast-part"></p>
+      </div>
+
+      <div id="back-to-today">Back to today</div>
     </div>
-
-    <div id="today-hourly">
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-      <div class="today-part"></div>
-    </div>
-
-    <div id="forecast">
-      <p class="forecast-part"></p>
-      <p class="forecast-part"></p>
-      <p class="forecast-part"></p>
-      <p class="forecast-part"></p>
-    </div>
-
-    <div id="back-to-today">Back to today</div>
     <script src="script.js"></script>
   </body>
 </html>
