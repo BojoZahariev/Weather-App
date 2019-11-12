@@ -1,5 +1,6 @@
 const apiKey = "3aab69399bf03eca438758bf6e33d18e";
 const buttonSubmit = document.getElementById("submit");
+const saveChoice = document.getElementById("save-choice");
 const form = document.getElementById("form");
 const cityInput = document.getElementById("input1");
 const countryInput = document.getElementById("input2");
@@ -83,9 +84,6 @@ const getIndex = apiData => {
 
 //display the data for Today
 const displayToday = apiData => {
-  //move the form away
-  form.classList.toggle("form-after");
-
   city.textContent = apiData.name;
   //rounded to integer
   temp.textContent = `${Math.round(apiData.main.temp)} °C`;
@@ -102,7 +100,8 @@ const displayToday = apiData => {
     apiData.sys.sunset * 1000
   ).toLocaleTimeString()}`;
 
-  storageItems();
+  //move the form div away
+  form.classList.toggle("form-after");
 };
 
 const displayTodayHourly = (apiData, start) => {
@@ -152,17 +151,22 @@ const displayNext4days = (apiData, start) => {
   }
 };
 
-backToToday.addEventListener("click", () => {
-  get5dayHourlyData(cityInput.value, countryInput.value);
-});
-
 buttonSubmit.addEventListener("click", () => {
   getTodayData(cityInput.value, countryInput.value);
   get5dayHourlyData(cityInput.value, countryInput.value);
 });
 
+saveChoice.addEventListener("click", () => {
+  storageItems();
+});
+
+backToToday.addEventListener("click", () => {
+  get5dayHourlyData(cityInput.value, countryInput.value);
+});
+
 // Storage
 const storageItems = () => {
+  //store if valid entry
   if (typeof Storage !== "undefined") {
     localStorage.setItem("city", cityInput.value);
     localStorage.setItem("country", countryInput.value);
