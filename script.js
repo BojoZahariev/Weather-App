@@ -47,7 +47,6 @@ const getTodayData = async (cityName, country) => {
     //send the data to be displayed
     displayToday(fetchedData);
   } catch (err) {
-    console.log(cityInput.value, countryInput.value);
     validPlace.style.display = "block";
   }
 };
@@ -117,6 +116,9 @@ const displayTodayHourly = (apiData, start) => {
       todayHourlyElement[i].removeChild(todayHourlyElement[i].firstChild);
     }
   }
+  let hTemp;
+  let allTemps = [];
+
   for (let i = 0; i < 8; i++) {
     let item1 = document.createElement("p");
     todayHourlyElement[i].appendChild(item1);
@@ -125,6 +127,8 @@ const displayTodayHourly = (apiData, start) => {
     let item2 = document.createElement("p");
     todayHourlyElement[i].appendChild(item2);
     item2.textContent = `${Math.round(apiData.list[start].main.temp)} °C`;
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
 
     let item3 = document.createElement("p");
     todayHourlyElement[i].appendChild(item3);
@@ -138,6 +142,8 @@ const displayTodayHourly = (apiData, start) => {
 
     start++;
   }
+
+  console.log("TCL: displayTodayHourly -> allTemps", allTemps);
 };
 
 const displayNext4days = (apiData, start) => {
@@ -157,6 +163,26 @@ const displayNext4days = (apiData, start) => {
   }
 };
 
+// Storage
+const storageItems = () => {
+  //store if valid entry
+  if (typeof Storage !== "undefined") {
+    localStorage.setItem("city", cityInput.value);
+    localStorage.setItem("country", countryInput.value);
+  }
+};
+
+//min/max
+const min = arr => {
+  var min = Math.min.apply(Math, arr);
+  return min;
+};
+
+const max = arr => {
+  var max = Math.max.apply(Math, arr);
+  return max;
+};
+
 //SUBMIT
 buttonSubmit.addEventListener("click", () => {
   getTodayData(cityInput.value, countryInput.value);
@@ -172,15 +198,6 @@ saveChoice.addEventListener("click", () => {
 backToToday.addEventListener("click", () => {
   get5dayHourlyData(cityInput.value, countryInput.value);
 });
-
-// Storage
-const storageItems = () => {
-  //store if valid entry
-  if (typeof Storage !== "undefined") {
-    localStorage.setItem("city", cityInput.value);
-    localStorage.setItem("country", countryInput.value);
-  }
-};
 
 closeValidPlace.addEventListener("click", () => {
   validPlace.style.display = "none";
