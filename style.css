@@ -25,10 +25,10 @@
   text-transform: uppercase;
 }
 
-#submit {
+#submit,
+#save-choice {
   border: 1px solid #222;
   padding: 10px;
-
   display: inline;
 }
 
