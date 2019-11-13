@@ -143,6 +143,10 @@ const displayTodayHourly = (apiData, start) => {
     todayHourlyElement[i].appendChild(item4);
     item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
 
+    let item5 = document.createElement("img");
+    todayHourlyElement[i].appendChild(item5);
+    item5.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
+
     start++;
   }
 };
