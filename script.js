@@ -16,8 +16,10 @@ const sunrise = document.getElementById("sunrise");
 const sunset = document.getElementById("sunset");
 const todayHourlyDiv = document.getElementById("today-hourly");
 const todayHourlyElement = document.getElementsByClassName("today-part");
-const forecastDiv = document.getElementById("forecast");
-const forecastElement = document.getElementsByClassName("forecast-part");
+const forecastDiv = document.getElementsByClassName("forecast-part");
+const forecastDate = document.getElementsByClassName("forecast-part-date");
+const forecastMin = document.getElementsByClassName("forecast-part-min");
+const forecastMax = document.getElementsByClassName("forecast-part-max");
 const backToToday = document.getElementById("back-to-today");
 const validPlace = document.getElementById("validPlace");
 const closeValidPlace = document.getElementById("close");
@@ -143,28 +145,56 @@ const displayTodayHourly = (apiData, start) => {
 
     start++;
   }
-
-  //get the min and max
-  min(allTemps);
-  max(allTemps);
-  console.log("TCL: displayTodayHourly -> allTemps", allTemps);
 };
 
 const displayNext4days = (apiData, start) => {
   for (let i = 0; i < 4; i++) {
-    forecastElement[i].textContent =
+    forecastDate[i].textContent =
       apiData.list[start].dt_txt.slice(8, 10) +
       "/" +
       apiData.list[start].dt_txt.slice(5, 7); //reverse the date
 
     let dateIndex = start;
 
-    start += 8;
+    start += 8; //jump to the next date
 
-    forecastElement[i].addEventListener("click", () => {
+    forecastMin[i].textContent = getMin(apiData, dateIndex);
+    forecastMax[i].textContent = getMax(apiData, dateIndex);
+
+    forecastDiv[i].addEventListener("click", () => {
       displayTodayHourly(apiData, dateIndex);
     });
   }
+};
+
+getMin = (apiData, start) => {
+  let hTemp;
+  let allTemps = [];
+
+  for (let i = 0; i < 8; i++) {
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
+
+    start++;
+  }
+  let min = Math.min.apply(Math, allTemps);
+
+  return min;
+};
+
+getMax = (apiData, start) => {
+  let hTemp;
+  let allTemps = [];
+
+  for (let i = 0; i < 8; i++) {
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
+
+    start++;
+  }
+  let max = Math.max.apply(Math, allTemps);
+
+  return max;
 };
 
 // Storage
@@ -174,17 +204,6 @@ const storageItems = () => {
     localStorage.setItem("city", cityInput.value);
     localStorage.setItem("country", countryInput.value);
   }
-};
-
-//Min/ Max daily temp
-const min = arr => {
-  var min = Math.min.apply(Math, arr);
-  return min;
-};
-
-const max = arr => {
-  var max = Math.max.apply(Math, arr);
-  return max;
 };
 
 //SUBMIT
