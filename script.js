@@ -20,6 +20,7 @@ const forecastDiv = document.getElementsByClassName('forecast-part');
 const forecastDate = document.getElementsByClassName('forecast-part-date');
 const forecastMin = document.getElementsByClassName('forecast-part-min');
 const forecastMax = document.getElementsByClassName('forecast-part-max');
+const forecastIcon = document.getElementsByClassName('forecast-part-icon');
 const backToToday = document.getElementById('back-to-today');
 const validPlace = document.getElementById('validPlace');
 const closeValidPlace = document.getElementById('close');
@@ -81,12 +82,12 @@ const displayToday = (apiData) => {
 	city.textContent = apiData.name;
 	//rounded to integer
 	temp.textContent = `${Math.round(apiData.main.temp)} °C`;
-	description.textContent = apiData.weather[0].description.charAt(0).toUpperCase() + apiData.weather[0].description.slice(1); //capital first
 	tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
 	tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
 	wind.textContent = `wind: ${apiData.wind.speed} m/s`;
-	sunrise.textContent = `Sunrise: ${new Date(apiData.sys.sunrise * 1000).toLocaleTimeString()}`;
-	sunset.textContent = `Sunset: ${new Date(apiData.sys.sunset * 1000).toLocaleTimeString()}`;
+	sunrise.textContent = `Sunrise: ${new Date(apiData.sys.sunrise * 1000).toLocaleTimeString().slice(-10, -6)} AM`;
+	sunset.textContent = `Sunset: ${new Date(apiData.sys.sunset * 1000).toLocaleTimeString().slice(-10, -6)} PM`;
+	description.src = `http://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`;
 
 	//move the form div away
 	if (mainContent.style.display !== 'block') {
@@ -118,10 +119,6 @@ const displayTodayHourly = (apiData, start) => {
 		hTemp = Math.round(apiData.list[start].main.temp);
 		allTemps.push(hTemp);
 
-		let item3 = document.createElement('p');
-		todayHourlyElement[i].appendChild(item3);
-		item3.textContent = apiData.list[start].weather[0].description.charAt(0).toUpperCase() + apiData.list[start].weather[0].description.slice(1); //capital first
-
 		let item4 = document.createElement('p');
 		todayHourlyElement[i].appendChild(item4);
 		item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
@@ -139,6 +136,9 @@ const displayNext4days = (apiData, start) => {
 		forecastDate[i].textContent = apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
 
 		let dateIndex = start;
+
+		//Each day's 12:00 for the icon
+		forecastIcon[i].src = `http://openweathermap.org/img/wn/${apiData.list[start + 3].weather[0].icon}@2x.png`;
 
 		start += 8; //jump to the next date
 
