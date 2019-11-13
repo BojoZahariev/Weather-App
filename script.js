@@ -116,6 +116,7 @@ const displayTodayHourly = (apiData, start) => {
       todayHourlyElement[i].removeChild(todayHourlyElement[i].firstChild);
     }
   }
+
   let hTemp;
   let allTemps = [];
 
@@ -143,6 +144,9 @@ const displayTodayHourly = (apiData, start) => {
     start++;
   }
 
+  //get the min and max
+  min(allTemps);
+  max(allTemps);
   console.log("TCL: displayTodayHourly -> allTemps", allTemps);
 };
 
@@ -172,7 +176,7 @@ const storageItems = () => {
   }
 };
 
-//min/max
+//Min/ Max daily temp
 const min = arr => {
   var min = Math.min.apply(Math, arr);
   return min;
