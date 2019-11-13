@@ -85,8 +85,9 @@ const displayToday = (apiData) => {
 	tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
 	tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
 	wind.textContent = `wind: ${apiData.wind.speed} m/s`;
-	sunrise.textContent = `Sunrise: ${new Date(apiData.sys.sunrise * 1000).toLocaleTimeString().slice(-10, -6)} AM`;
-	sunset.textContent = `Sunset: ${new Date(apiData.sys.sunset * 1000).toLocaleTimeString().slice(-10, -6)} PM`;
+	sunrise.textContent = `Sunrise: ${new Date((apiData.sys.sunrise + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} AM`;
+	console.log('TCL: displayToday -> apiData.timezone', apiData.timezone);
+	sunset.textContent = `Sunset: ${new Date((apiData.sys.sunset + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} PM`;
 	description.src = `http://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`;
 
 	//move the form div away
