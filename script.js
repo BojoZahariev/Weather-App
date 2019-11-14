@@ -1,4 +1,5 @@
 const apiKey = '3aab69399bf03eca438758bf6e33d18e';
+const wrapper = document.getElementById('wrapper');
 const loader = document.getElementById('loader');
 const mainContent = document.getElementById('content');
 const buttonSubmit = document.getElementById('submit');
@@ -38,7 +39,7 @@ const getTodayData = async (cityName, country) => {
 			mode: 'cors'
 		});
 		const fetchedData = await response.json();
-
+		validPlace.style.display = 'none';
 		console.log(fetchedData);
 
 		//send the data to be displayed
@@ -96,6 +97,7 @@ const displayToday = (apiData) => {
 	}
 	mainContent.style.display = 'block';
 	loader.style.display = 'none';
+	wrapper.style.backgroundImage = `url(images/${apiData.weather[0].main}.jpg)`;
 };
 
 const displayTodayHourly = (apiData, start) => {
