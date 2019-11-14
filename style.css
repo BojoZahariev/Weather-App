@@ -1,137 +1,116 @@
+body {
+	text-align: center;
+}
+
+/* LOADER*/
 #loader {
-  display: none;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  width: 150px;
-  height: 150px;
-  margin: -75px 0 0 -75px;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 20%;
+	margin: auto;
+	z-index: 99;
+	width: 250px;
+	-webkit-animation: spin 2s linear infinite;
+	animation: spin 2s linear infinite;
 }
 
 @-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Add animation to "page content" */
-.animate-bottom {
-  position: relative;
-  -webkit-animation-name: animatebottom;
-  -webkit-animation-duration: 1s;
-  animation-name: animatebottom;
-  animation-duration: 1s;
-}
-
-@-webkit-keyframes animatebottom {
-  from {
-    bottom: -100px;
-    opacity: 0;
-  }
-  to {
-    bottom: 0px;
-    opacity: 1;
-  }
-}
-
-@keyframes animatebottom {
-  from {
-    bottom: -100px;
-    opacity: 0;
-  }
-  to {
-    bottom: 0;
-    opacity: 1;
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .form-before {
-  position: absolute;
-  top: 20%;
+	position: absolute;
+	top: 20%;
 }
 
 .form-after {
-  top: 0;
+	top: 0;
 }
 
 #content {
-  display: none;
+	display: none;
 }
 
 #validPlace {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #222;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 20%;
-  margin: auto;
-  z-index: 99;
-  background-color: azure;
-  display: none;
+	display: none;
+	width: 20%;
+	height: 50px;
+	border: 1px solid #222;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 20%;
+	margin: auto;
+	z-index: 99;
+	background-color: azure;
+	line-height: 50px;
+}
+
+#close {
+	position: absolute;
+	bottom: 0;
+	right: 5px;
+	font-size: 18px;
+	cursor: pointer;
+	line-height: 20px;
 }
 
 #input1 {
-  text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 #submit,
 #save-choice {
-  border: 1px solid #222;
-  padding: 10px;
-  display: inline;
+	border: 1px solid #222;
+	padding: 10px;
+	display: inline;
 }
 
 .today {
-  height: 200px;
-  margin: 20px;
+	height: 200px;
+	margin: 20px;
 }
 
 #today-hourly {
-  display: flex;
-  height: 200px;
+	display: flex;
+	height: 200px;
 }
 
 .today-part {
-  border: 1px solid #222;
-  padding: 10px;
-  flex-grow: 1;
+	border: 1px solid #222;
+	padding: 10px;
+	flex-grow: 1;
 }
 
 #forecast {
-  display: flex;
+	display: flex;
 }
 
 .forecast-part {
-  border: 1px solid #222;
-  padding: 2px 10px;
-  flex-grow: 1;
-  cursor: pointer;
+	border: 1px solid #222;
+	padding: 2px 10px;
+	flex-grow: 1;
+	cursor: pointer;
 }
 
 #back-to-today {
-  border: 1px solid #222;
-  width: 150px;
-  cursor: pointer;
+	border: 1px solid #222;
+	width: 150px;
+	cursor: pointer;
 }
