@@ -10,13 +10,12 @@
   </head>
 
   <body>
-    <img src="images/sun-308679_640.png" id="loader">
+    <div id="wrapper">
     
-    <div id="validPlace">
-      Please enter a valid place
-      <p id="close">Ok</p>
-    </div>
+    <img src="images/sun-308679_640.png" id="loader">
 
+    
+  
     <form id="form" class="form-before">
       <input id="input1" type="text" />
       <select id="input2">
@@ -268,9 +267,15 @@
         <option value="ZW">Zimbabwe</option>
       </select>
 
-      <p id="submit">submit</p>
+      <p id="submit">Go</p>
       <p id="save-choice">Save that place</p>
+
+      <div id="validPlace">
+        Please enter a valid place
+        <p id="close">Ok</p>
+      </div>
     </form>
+  
     <div id="content">
       <div class="today">
         <p id="city"></p>
@@ -323,6 +328,8 @@
 
       <div id="back-to-today">Back to today</div>
     </div>
+  </div>
+  
     <script src="script.js"></script>
   </body>
 </html>
