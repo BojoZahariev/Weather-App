@@ -9,6 +9,7 @@
 	-o-background-size: cover;
 	background-size: cover;
 	background-color: #000;
+	font-family: 'ZCOOL XiaoWei', serif;
 }
 
 /* LOADER*/
@@ -44,6 +45,9 @@
 }
 
 /*Form*/
+#form {
+	transition: all 1s;
+}
 .form-before {
 	position: relative;
 	left: 0;
@@ -128,20 +132,40 @@
 .today {
 	height: 200px;
 	margin: 20px;
+	color: #fff;
+}
+
+#city {
+	text-transform: uppercase;
 }
 
 #today-hourly {
+	position: relative;
 	display: flex;
 	height: 200px;
-	background-color: #fff;
+
 	width: 80%;
 	margin: auto;
+}
+
+#today-hourly::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0.7;
+	background-color: #fff;
 }
 
 .today-part {
 	border: 1px solid #222;
 	padding: 10px;
 	flex-grow: 1;
+	z-index: 2;
 }
 
 #forecast {
