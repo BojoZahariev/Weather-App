@@ -162,15 +162,6 @@
   transform: rotateY(360deg);
 }
 
-.rotate2 {
-  transform: rotateY(360deg);
-}
-/*
-.today-flip:hover .today-back {
-  transform: rotateY(360deg);
-}
-*/
-
 .today-back::before {
   content: ' ';
   display: block;
