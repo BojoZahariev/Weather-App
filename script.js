@@ -17,7 +17,7 @@ const sunrise = document.getElementById('sunrise');
 const sunset = document.getElementById('sunset');
 const todayHourlyDiv = document.getElementById('today-hourly');
 const todayBack = document.getElementsByClassName('today-back');
-const todayHourlyElement = document.getElementsByClassName('today-part');
+const todayHourlyElement = document.getElementsByClassName('today-hourly-part');
 const todayFlip = document.getElementsByClassName('today-flip');
 const forecastDiv = document.getElementsByClassName('forecast-part');
 const forecastDate = document.getElementsByClassName('forecast-part-date');
@@ -98,6 +98,7 @@ const displayToday = apiData => {
   }
   mainContent.style.display = 'block';
   loader.style.display = 'none';
+
   wrapper.style.backgroundImage = `url(images/${apiData.weather[0].main}.jpg)`;
 };
 
@@ -115,21 +116,27 @@ const displayTodayHourly = (apiData, start) => {
   for (let i = 0; i < 8; i++) {
     let item1 = document.createElement('p');
     todayHourlyElement[i].appendChild(item1);
-    item1.textContent = apiData.list[start].dt_txt.slice(-9, -3);
+    item1.textContent = `${apiData.list[start].dt_txt.slice(-9, -3)} h`;
+    item1.classList.add('hourly-text');
 
     let item2 = document.createElement('p');
     todayHourlyElement[i].appendChild(item2);
     item2.textContent = `${Math.round(apiData.list[start].main.temp)} °C`;
     hTemp = Math.round(apiData.list[start].main.temp);
     allTemps.push(hTemp);
+    item2.id = 'hourly-temp';
+    item2.classList.add('hourly-text');
 
-    let item4 = document.createElement('p');
+    let item4 = document.createElement('img');
     todayHourlyElement[i].appendChild(item4);
-    item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
+    item4.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
+    item4.classList.add('hourly-text');
 
-    let item5 = document.createElement('img');
+    let item5 = document.createElement('p');
     todayHourlyElement[i].appendChild(item5);
-    item5.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
+    item5.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
+    item5.classList.add('hourly-text');
+    item5.id = 'hourly-wind';
 
     start++;
   }
@@ -148,8 +155,8 @@ const displayNext4days = (apiData, start) => {
 
     start += 8; //jump to the next date
 
-    forecastMin[i].textContent = getMin(apiData, dateIndex);
-    forecastMax[i].textContent = getMax(apiData, dateIndex);
+    forecastMin[i].textContent = `Min ${getMin(apiData, dateIndex)} °C`;
+    forecastMax[i].textContent = `Max ${getMax(apiData, dateIndex)} °C`;
 
     //display each date hourly
     forecastDiv[i + 1].addEventListener('click', () => {
@@ -161,6 +168,12 @@ const displayNext4days = (apiData, start) => {
   forecastDiv[0].addEventListener('click', () => {
     displayTodayHourly(apiData, 0);
   });
+
+  console.log('bump');
+};
+
+const sendForDisplay = (apiData, start) => {
+  displayTodayHourly(apiData, start);
 };
 
 //Flip the cards
