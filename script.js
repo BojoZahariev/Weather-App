@@ -16,7 +16,9 @@ const wind = document.getElementById('wind');
 const sunrise = document.getElementById('sunrise');
 const sunset = document.getElementById('sunset');
 const todayHourlyDiv = document.getElementById('today-hourly');
+const todayBack = document.getElementsByClassName('today-back');
 const todayHourlyElement = document.getElementsByClassName('today-part');
+const todayFlip = document.getElementsByClassName('today-flip');
 const forecastDiv = document.getElementsByClassName('forecast-part');
 const forecastDate = document.getElementsByClassName('forecast-part-date');
 const forecastMin = document.getElementsByClassName('forecast-part-min');
@@ -28,187 +30,197 @@ const closeValidPlace = document.getElementById('close');
 
 //get the data from the local storage if it's not empty
 if (localStorage.getItem('city') !== null && localStorage.getItem('country') !== null) {
-	cityInput.value = localStorage.getItem('city');
-	countryInput.value = localStorage.getItem('country');
+  cityInput.value = localStorage.getItem('city');
+  countryInput.value = localStorage.getItem('country');
 }
 
 //today's weather
 const getTodayData = async (cityName, country) => {
-	try {
-		const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&units=metric&appid=${apiKey}`, {
-			mode: 'cors'
-		});
-		const fetchedData = await response.json();
-		validPlace.style.display = 'none';
-		console.log(fetchedData);
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&units=metric&appid=${apiKey}`, {
+      mode: 'cors'
+    });
+    const fetchedData = await response.json();
+    validPlace.style.display = 'none';
+    console.log(fetchedData);
 
-		//send the data to be displayed
-		displayToday(fetchedData);
-	} catch (err) {
-		validPlace.style.display = 'block';
-	}
+    //send the data to be displayed
+    displayToday(fetchedData);
+  } catch (err) {
+    validPlace.style.display = 'block';
+  }
 };
 
 const get5dayHourlyData = async (cityName, country) => {
-	try {
-		const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName},${country}&units=metric&appid=${apiKey}`, {
-			mode: 'cors'
-		});
-		const fetchedData = await response.json();
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName},${country}&units=metric&appid=${apiKey}`, {
+      mode: 'cors'
+    });
+    const fetchedData = await response.json();
 
-		console.log(fetchedData);
-		displayTodayHourly(fetchedData, 0);
-		getIndex(fetchedData);
-		displayNext4days(fetchedData, getIndex(fetchedData));
-	} catch (err) {
-		validPlace.style.display = 'block';
-	}
+    console.log(fetchedData);
+    displayTodayHourly(fetchedData, 0);
+    getIndex(fetchedData);
+    displayNext4days(fetchedData, getIndex(fetchedData));
+  } catch (err) {
+    validPlace.style.display = 'block';
+  }
 };
 
 //get the index of the next day, start 03:00:00
-const getIndex = (apiData) => {
-	let newDayIndex;
+const getIndex = apiData => {
+  let newDayIndex;
 
-	for (let i = 0; i < apiData.list.length; i++) {
-		if (apiData.list[i].dt_txt.includes('03:00:00')) {
-			newDayIndex = i;
-			break;
-		}
-	}
-	return newDayIndex;
+  for (let i = 0; i < apiData.list.length; i++) {
+    if (apiData.list[i].dt_txt.includes('03:00:00')) {
+      newDayIndex = i;
+      break;
+    }
+  }
+  return newDayIndex;
 };
 
 //display the data for Today
-const displayToday = (apiData) => {
-	city.textContent = apiData.name;
-	//rounded to integer
-	temp.textContent = `${Math.round(apiData.main.temp)} °C`;
-	tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
-	tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
-	wind.textContent = `wind: ${apiData.wind.speed} m/s`;
-	sunrise.textContent = `Sunrise: ${new Date((apiData.sys.sunrise + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} AM`;
-	console.log('TCL: displayToday -> apiData.timezone', apiData.timezone);
-	sunset.textContent = `Sunset: ${new Date((apiData.sys.sunset + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} PM`;
-	description.src = `http://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`;
+const displayToday = apiData => {
+  city.textContent = apiData.name;
+  //rounded to integer
+  temp.textContent = `${Math.round(apiData.main.temp)} °C`;
+  tempMin.textContent = `min: ${Math.round(apiData.main.temp_min)} °C`;
+  tempMax.textContent = `max: ${Math.round(apiData.main.temp_max)} °C`;
+  wind.textContent = `wind: ${apiData.wind.speed} m/s`;
+  sunrise.textContent = `Sunrise: ${new Date((apiData.sys.sunrise + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} AM`;
+  sunset.textContent = `Sunset: ${new Date((apiData.sys.sunset + apiData.timezone) * 1000).toLocaleTimeString().slice(-10, -6)} PM`;
+  description.src = `http://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`;
 
-	//move the form div away
-	if (mainContent.style.display !== 'block') {
-		form.classList.toggle('form-after');
-	}
-	mainContent.style.display = 'block';
-	loader.style.display = 'none';
-	wrapper.style.backgroundImage = `url(images/${apiData.weather[0].main}.jpg)`;
+  //move the form div away
+  if (mainContent.style.display !== 'block') {
+    form.classList.toggle('form-after');
+  }
+  mainContent.style.display = 'block';
+  loader.style.display = 'none';
+  wrapper.style.backgroundImage = `url(images/${apiData.weather[0].main}.jpg)`;
 };
 
 const displayTodayHourly = (apiData, start) => {
-	//clear the old
-	for (let i = 0; i < 8; i++) {
-		while (todayHourlyElement[i].firstChild) {
-			todayHourlyElement[i].removeChild(todayHourlyElement[i].firstChild);
-		}
-	}
+  //clear the old
+  for (let i = 0; i < 8; i++) {
+    while (todayHourlyElement[i].firstChild) {
+      todayHourlyElement[i].removeChild(todayHourlyElement[i].firstChild);
+    }
+  }
 
-	let hTemp;
-	let allTemps = [];
+  let hTemp;
+  let allTemps = [];
 
-	for (let i = 0; i < 8; i++) {
-		let item1 = document.createElement('p');
-		todayHourlyElement[i].appendChild(item1);
-		item1.textContent = apiData.list[start].dt_txt.slice(-9, -3);
+  for (let i = 0; i < 8; i++) {
+    let item1 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item1);
+    item1.textContent = apiData.list[start].dt_txt.slice(-9, -3);
 
-		let item2 = document.createElement('p');
-		todayHourlyElement[i].appendChild(item2);
-		item2.textContent = `${Math.round(apiData.list[start].main.temp)} °C`;
-		hTemp = Math.round(apiData.list[start].main.temp);
-		allTemps.push(hTemp);
+    let item2 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item2);
+    item2.textContent = `${Math.round(apiData.list[start].main.temp)} °C`;
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
 
-		let item4 = document.createElement('p');
-		todayHourlyElement[i].appendChild(item4);
-		item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
+    let item4 = document.createElement('p');
+    todayHourlyElement[i].appendChild(item4);
+    item4.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
 
-		let item5 = document.createElement('img');
-		todayHourlyElement[i].appendChild(item5);
-		item5.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
+    let item5 = document.createElement('img');
+    todayHourlyElement[i].appendChild(item5);
+    item5.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
 
-		start++;
-	}
+    start++;
+  }
 };
 
 const displayNext4days = (apiData, start) => {
-	for (let i = 0; i < 4; i++) {
-		forecastDate[i].textContent = apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
+  for (let i = 0; i < 4; i++) {
+    forecastDate[i].textContent = apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
 
-		let dateIndex = start;
+    let dateIndex = start;
 
-		//Each day's 12:00 for the icon
-		forecastIcon[i].src = `http://openweathermap.org/img/wn/${apiData.list[start + 3].weather[0].icon}@2x.png`;
+    //Each day's 12:00 for the icon
+    forecastIcon[i].src = `http://openweathermap.org/img/wn/${apiData.list[start + 3].weather[0].icon}@2x.png`;
 
-		start += 8; //jump to the next date
+    start += 8; //jump to the next date
 
-		forecastMin[i].textContent = getMin(apiData, dateIndex);
-		forecastMax[i].textContent = getMax(apiData, dateIndex);
+    forecastMin[i].textContent = getMin(apiData, dateIndex);
+    forecastMax[i].textContent = getMax(apiData, dateIndex);
 
-		forecastDiv[i].addEventListener('click', () => {
-			displayTodayHourly(apiData, dateIndex);
-		});
-	}
+    forecastDiv[i].addEventListener('click', () => {
+      displayTodayHourly(apiData, dateIndex);
+      flip();
+    });
+  }
 };
 
+//Flip the cards
+const flip = () => {
+  for (let i = 0; i < 8; i++) {
+    todayBack[i].classList.toggle('rotate');
+  }
+};
+
+//Get the min temp for the day between 03:00 and 00:00
 getMin = (apiData, start) => {
-	let hTemp;
-	let allTemps = [];
+  let hTemp;
+  let allTemps = [];
 
-	for (let i = 0; i < 8; i++) {
-		hTemp = Math.round(apiData.list[start].main.temp);
-		allTemps.push(hTemp);
+  for (let i = 0; i < 8; i++) {
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
 
-		start++;
-	}
-	let min = Math.min.apply(Math, allTemps);
+    start++;
+  }
+  let min = Math.min.apply(Math, allTemps);
 
-	return min;
+  return min;
 };
 
+//Get the max temp for the day between 03:00 and 00:00
 getMax = (apiData, start) => {
-	let hTemp;
-	let allTemps = [];
+  let hTemp;
+  let allTemps = [];
 
-	for (let i = 0; i < 8; i++) {
-		hTemp = Math.round(apiData.list[start].main.temp);
-		allTemps.push(hTemp);
+  for (let i = 0; i < 8; i++) {
+    hTemp = Math.round(apiData.list[start].main.temp);
+    allTemps.push(hTemp);
 
-		start++;
-	}
-	let max = Math.max.apply(Math, allTemps);
+    start++;
+  }
+  let max = Math.max.apply(Math, allTemps);
 
-	return max;
+  return max;
 };
 
 // Storage
 const storageItems = () => {
-	//store if valid entry
-	if (typeof Storage !== 'undefined') {
-		localStorage.setItem('city', cityInput.value);
-		localStorage.setItem('country', countryInput.value);
-	}
+  //store if valid entry
+  if (typeof Storage !== 'undefined') {
+    localStorage.setItem('city', cityInput.value);
+    localStorage.setItem('country', countryInput.value);
+  }
 };
 
 //SUBMIT
 buttonSubmit.addEventListener('click', () => {
-	getTodayData(cityInput.value, countryInput.value);
-	get5dayHourlyData(cityInput.value, countryInput.value);
-	loader.style.display = 'block';
+  getTodayData(cityInput.value, countryInput.value);
+  get5dayHourlyData(cityInput.value, countryInput.value);
+  loader.style.display = 'block';
 });
 
 //Save city
 saveChoice.addEventListener('click', () => {
-	storageItems();
+  storageItems();
 });
 
 backToToday.addEventListener('click', () => {
-	get5dayHourlyData(cityInput.value, countryInput.value);
+  get5dayHourlyData(cityInput.value, countryInput.value);
+  flip();
 });
 
 closeValidPlace.addEventListener('click', () => {
-	validPlace.style.display = 'none';
+  validPlace.style.display = 'none';
 });
