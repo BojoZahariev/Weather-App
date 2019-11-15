@@ -133,6 +133,8 @@ const displayTodayHourly = (apiData, start) => {
 
     start++;
   }
+
+  flip();
 };
 
 const displayNext4days = (apiData, start) => {
@@ -149,11 +151,16 @@ const displayNext4days = (apiData, start) => {
     forecastMin[i].textContent = getMin(apiData, dateIndex);
     forecastMax[i].textContent = getMax(apiData, dateIndex);
 
-    forecastDiv[i].addEventListener('click', () => {
+    //display each date hourly
+    forecastDiv[i + 1].addEventListener('click', () => {
       displayTodayHourly(apiData, dateIndex);
-      flip();
     });
   }
+
+  //Back to today
+  forecastDiv[0].addEventListener('click', () => {
+    displayTodayHourly(apiData, 0);
+  });
 };
 
 //Flip the cards
@@ -214,11 +221,6 @@ buttonSubmit.addEventListener('click', () => {
 //Save city
 saveChoice.addEventListener('click', () => {
   storageItems();
-});
-
-backToToday.addEventListener('click', () => {
-  get5dayHourlyData(cityInput.value, countryInput.value);
-  flip();
 });
 
 closeValidPlace.addEventListener('click', () => {
