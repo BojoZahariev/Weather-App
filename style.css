@@ -161,6 +161,10 @@
 .rotate {
   transform: rotateY(360deg);
 }
+
+.rotate2 {
+  transform: rotateY(360deg);
+}
 /*
 .today-flip:hover .today-back {
   transform: rotateY(360deg);
@@ -197,11 +201,5 @@
   border: 1px solid #222;
   padding: 2px 10px;
   flex-grow: 1;
-  cursor: pointer;
-}
-
-#back-to-today {
-  border: 1px solid #222;
-  width: 150px;
   cursor: pointer;
 }
