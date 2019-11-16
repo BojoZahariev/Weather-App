@@ -142,8 +142,10 @@ const displayTodayHourly = (apiData, start) => {
   }
 
   flip();
+  console.log('ha');
 };
 
+var a;
 const displayNext4days = (apiData, start) => {
   for (let i = 0; i < 4; i++) {
     forecastDate[i].textContent = apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
@@ -158,18 +160,30 @@ const displayNext4days = (apiData, start) => {
     forecastMin[i].textContent = `Min ${getMin(apiData, dateIndex)} °C`;
     forecastMax[i].textContent = `Max ${getMax(apiData, dateIndex)} °C`;
 
-    //display each date hourly
-    forecastDiv[i + 1].addEventListener('click', () => {
-      displayTodayHourly(apiData, dateIndex);
-    });
+    if (a !== 'done') {
+      //display each date hourly
+      forecastDiv[i + 1].addEventListener(
+        'click',
+        () => {
+          displayTodayHourly(apiData, dateIndex);
+        },
+        false
+      );
+    }
   }
 
-  //Back to today
-  forecastDiv[0].addEventListener('click', () => {
-    displayTodayHourly(apiData, 0);
-  });
+  if (a !== 'done') {
+    //Back to today
+    forecastDiv[0].addEventListener(
+      'click',
+      () => {
+        displayTodayHourly(apiData, 0);
+      },
+      false
+    );
+  }
 
-  console.log('bump');
+  a = 'done';
 };
 
 const sendForDisplay = (apiData, start) => {
