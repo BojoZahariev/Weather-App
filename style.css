@@ -48,6 +48,7 @@
 /*Form*/
 #form {
   transition: all 1s;
+  z-index: 999;
 }
 .form-before {
   position: relative;
@@ -75,21 +76,20 @@
 
 #submit,
 #save-choice {
-  border: 1px solid #c4c4c4;
+  border: 1px solid #222;
   border-radius: 5px;
   background-color: #fff;
-  padding: 5px 5px;
+  padding: 3px 5px 5px;
   margin: 0px 5px;
-  box-shadow: inset 0 3px 6px #0000001a;
   display: inline;
   cursor: pointer;
   font-size: 20px;
-  background-color: #084c61;
+  background-color: #515751;
   color: #c4c4c4;
 }
 
 #submit {
-  padding: 5px 15px;
+  padding: 3px 15px 5px;
 }
 
 #submit:hover,
@@ -124,8 +124,8 @@
 #title {
   position: absolute;
   bottom: 0;
-  color: #fff;
-  font-size: 8vw;
+  color: #fdfffc;
+  font-size: 6vw;
   padding: 10px;
 }
 
@@ -188,6 +188,7 @@
   flex-grow: 1;
   margin: 0px 2px;
   perspective: 1000px;
+  min-width: 130px;
 }
 
 .today-back {
@@ -253,7 +254,24 @@
   flex-grow: 1;
   cursor: pointer;
   position: relative;
-  background-color: #fff;
+  background-color: #515751;
+  color: #fdfffc;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#forecast-part-today {
+  line-height: 120px;
+}
+
+.forecast-part:hover {
+  color: #222;
+  background-color: #fdfffc;
+}
+
+.active {
+  color: #222;
+  background-color: #fdfffc;
 }
 
 .forecast-flex {
