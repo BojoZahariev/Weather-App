@@ -142,11 +142,15 @@ const displayTodayHourly = (apiData, start) => {
   }
 
   flip();
-  console.log('ha');
 };
 
-var a;
 const displayNext4days = (apiData, start) => {
+  //Clear the accumulated event listeners
+  for (let i = 0; i < 5; i++) {
+    var new_element = forecastDiv[i].cloneNode(true);
+    forecastDiv[i].parentNode.replaceChild(new_element, forecastDiv[i]);
+  }
+
   for (let i = 0; i < 4; i++) {
     forecastDate[i].textContent = apiData.list[start].dt_txt.slice(8, 10) + '/' + apiData.list[start].dt_txt.slice(5, 7); //reverse the date
 
@@ -160,34 +164,38 @@ const displayNext4days = (apiData, start) => {
     forecastMin[i].textContent = `Min ${getMin(apiData, dateIndex)} °C`;
     forecastMax[i].textContent = `Max ${getMax(apiData, dateIndex)} °C`;
 
-    if (a !== 'done') {
-      //display each date hourly
-      forecastDiv[i + 1].addEventListener(
-        'click',
-        () => {
-          displayTodayHourly(apiData, dateIndex);
-        },
-        false
-      );
-    }
-  }
-
-  if (a !== 'done') {
-    //Back to today
-    forecastDiv[0].addEventListener(
+    //display each date hourly
+    forecastDiv[i + 1].addEventListener(
       'click',
       () => {
-        displayTodayHourly(apiData, 0);
+        displayTodayHourly(apiData, dateIndex);
+        clearActive();
+
+        forecastDiv[i + 1].classList.add('active');
       },
       false
     );
   }
 
-  a = 'done';
+  //Back to today
+  forecastDiv[0].addEventListener(
+    'click',
+    () => {
+      displayTodayHourly(apiData, 0);
+      clearActive();
+      forecastDiv[0].classList.add('active');
+    },
+    false
+  );
 };
 
-const sendForDisplay = (apiData, start) => {
-  displayTodayHourly(apiData, start);
+//clear active status
+const clearActive = () => {
+  for (let x = 0; x < forecastDiv.length; x++) {
+    if (forecastDiv[x].classList.contains('active')) {
+      forecastDiv[x].classList.remove('active');
+    }
+  }
 };
 
 //Flip the cards
@@ -243,6 +251,9 @@ buttonSubmit.addEventListener('click', () => {
   getTodayData(cityInput.value, countryInput.value);
   get5dayHourlyData(cityInput.value, countryInput.value);
   loader.style.display = 'block';
+  clearActive();
+  //highlight today
+  forecastDiv[0].classList.add('active');
 });
 
 //Save city
