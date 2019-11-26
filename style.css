@@ -188,7 +188,6 @@
   flex-grow: 1;
   margin: 0px 2px;
   perspective: 1000px;
-  min-width: 130px;
 }
 
 .today-back {
@@ -293,4 +292,12 @@
 
 .forecast-part-icon {
   display: block;
+}
+
+/*MEDIA*/
+
+@media only screen and (max-width: 1350px) {
+  .hourly-all {
+    width: 100%;
+  }
 }
