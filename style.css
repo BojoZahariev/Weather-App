@@ -244,7 +244,6 @@
 #forecast {
   display: flex;
   margin: auto;
-  height: 120px;
 }
 
 .forecast-part {
@@ -273,25 +272,21 @@
   background-color: #fdfffc;
 }
 
-.forecast-flex {
-  display: flex;
-  justify-content: space-between;
-}
-
 .forecast-part-date {
   font-size: 20px;
 }
 
 .min-max-div {
-  width: 100px;
-  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0px 0px 0px 20px;
+  height: 100px;
+  float: left;
 }
 
 .forecast-part-icon {
-  display: block;
+  float: right;
 }
 
 /*MEDIA*/
@@ -299,5 +294,25 @@
 @media only screen and (max-width: 1350px) {
   .hourly-all {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .hourly-text-img {
+    width: 90%;
+    height: auto;
+  }
+
+  .forecast-part {
+    font-size: 16px;
+  }
+
+  .forecast-part-icon {
+    width: 40%;
+    height: auto;
+  }
+
+  .min-max-div {
+    height: 80px;
   }
 }
