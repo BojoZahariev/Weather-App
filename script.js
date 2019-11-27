@@ -131,6 +131,7 @@ const displayTodayHourly = (apiData, start) => {
     todayHourlyElement[i].appendChild(item4);
     item4.src = `http://openweathermap.org/img/wn/${apiData.list[start].weather[0].icon}@2x.png`;
     item4.classList.add('hourly-text');
+    item4.classList.add('hourly-text-img');
 
     let item5 = document.createElement('p');
     todayHourlyElement[i].appendChild(item5);
