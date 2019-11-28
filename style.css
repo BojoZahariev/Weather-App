@@ -233,7 +233,7 @@
   font-size: 30px;
 }
 
-#hourly-wind {
+.hourly-wind {
   position: absolute;
   bottom: 30px;
   left: 0;
@@ -314,5 +314,25 @@
 
   .min-max-div {
     height: 80px;
+  }
+}
+
+@media only screen and (max-width: 715px) {
+  .hourly-wind {
+    font-size: 16px;
+  }
+
+  .forecast-part {
+    height: 120px;
+  }
+
+  .min-max-div {
+    float: none;
+    height: 50px;
+    padding: 0px;
+  }
+
+  .forecast-part-icon {
+    float: none;
   }
 }
