@@ -137,7 +137,7 @@ const displayTodayHourly = (apiData, start) => {
     todayHourlyElement[i].appendChild(item5);
     item5.textContent = `wind: ${apiData.list[start].wind.speed} m/s`;
     item5.classList.add('hourly-text');
-    item5.id = 'hourly-wind';
+    item5.classList.add('hourly-wind');
 
     start++;
   }
